@@ -6,6 +6,7 @@ module.exports = {
   getVendorPage,
   addVendorReview,
   getReviewsByUser,
+  getVendorByName,
 };
 
 async function editVendorPage(req, res) {
@@ -22,6 +23,15 @@ async function getVendorPage(req, res) {
   console.log("getVendorPageCtrl req ", req.params.vendor);
   try {
     const vendor = await modelVendor.getVendorPage(req.params.vendor); //pass in vendorID, returns vendor details as object
+    res.json(vendor);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+async function getVendorByName(req, res) {
+  console.log("getVendorByName req ", req.params.vendorname);
+  try {
+    const vendor = await modelVendor.getVendorByName(req.params.vendorname); //pass in vendorname, returns vendor details as object
     res.json(vendor);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });

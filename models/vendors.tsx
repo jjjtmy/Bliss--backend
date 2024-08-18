@@ -7,6 +7,7 @@ var ObjectId = require("mongoose").Types.ObjectId;
 module.exports = {
   editVendorPage,
   getVendorPage,
+  getVendorByName,
   addVendorReview,
   getReviewsByUser,
 };
@@ -33,6 +34,14 @@ async function getVendorPage(vendorID) {
   const vendorObjectId = new ObjectId(vendorID);
 
   const vendor = await daoVendor.findOne({ _id: vendorObjectId }); //return vendor details as object
+  if (!vendor) {
+    return { success: false, error: "Vendor not found" };
+  }
+  return { success: true, data: vendor };
+}
+
+async function getVendorByName(vendorname) {
+  const vendor = await daoVendor.findOne({ Name: vendorname }); //return vendor details as object
   if (!vendor) {
     return { success: false, error: "Vendor not found" };
   }

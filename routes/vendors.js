@@ -6,9 +6,9 @@ var router = express.Router();
 
 //start with /vendors
 router.get("/getReviewsByUser/:userid", ctrlVendor.getReviewsByUser);
+router.get("/name/:vendorname", ctrlVendor.getVendorByName);
 router.get("/:vendor", ctrlVendor.getVendorPage);
 
-//start with /vendors
 router.post(
   "/editvendorpage",
   securityMiddleware.checkVendorPermission,
