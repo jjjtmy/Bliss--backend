@@ -7,6 +7,7 @@ module.exports = {
   addVendorReview,
   getReviewsByUser,
   getVendorByName,
+  getVendorNames,
 };
 
 async function editVendorPage(req, res) {
@@ -55,6 +56,16 @@ async function getReviewsByUser(req, res) {
   try {
     const reviews = await modelVendor.getReviewsByUser(req.params.userid);
     res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function getVendorNames(req, res) {
+  console.log("getVendorNamesCtrl req ");
+  try {
+    const vendors = await modelVendor.getVendorNames();
+    res.json(vendors);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }

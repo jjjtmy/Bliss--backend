@@ -10,6 +10,7 @@ module.exports = {
   getVendorByName,
   addVendorReview,
   getReviewsByUser,
+  getVendorNames,
 };
 
 async function editVendorPage(newVendorPage) {
@@ -83,4 +84,9 @@ async function getReviewsByUser(userid) {
     console.error("Error in getting reviews by user:", error);
     return { success: false, error };
   }
+}
+
+async function getVendorNames() {
+  const vendors = await daoVendor.find({}, { Name: 1 }); //returns array of vendor names
+  return { success: true, data: vendors };
 }
