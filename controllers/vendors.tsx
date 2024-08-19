@@ -43,7 +43,12 @@ async function addVendorReview(req, res) {
   console.log("addVendorReviewCtrl req ", req.body);
   try {
     const userID = await modelUsers.getLoginDetails(req.user.payload.email);
-    const review = { ...req.body, user: userID.data._id };
+    console.log("userID ", userID);
+    const review = {
+      ...req.body,
+      user: userID.data._id,
+      username: userID.data.name,
+    };
     const newReview = await modelVendor.addVendorReview(review);
     res.json(newReview.success);
   } catch (err) {

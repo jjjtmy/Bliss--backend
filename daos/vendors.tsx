@@ -46,6 +46,7 @@ const vendorSchema = new Schema(
     reviews: [
       {
         user: Schema.Types.ObjectId,
+        username: String,
         costperpax: Number,
         food: Number,
         ambience: Number,
