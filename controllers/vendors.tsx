@@ -4,7 +4,9 @@ const modelUsers = require("../models/users.tsx");
 module.exports = {
   editVendorPage,
   getVendorPage,
+  getVendorbyUserID,
   addVendorReview,
+  deleteReview,
   getReviewsByUser,
   getVendorByName,
   getVendorNames,
@@ -24,6 +26,17 @@ async function getVendorPage(req, res) {
   console.log("getVendorPageCtrl req ", req.params.vendor);
   try {
     const vendor = await modelVendor.getVendorPage(req.params.vendor); //pass in vendorID, returns vendor details as object
+    console.log("ctl getVendorpage", vendor);
+    res.json(vendor);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function getVendorbyUserID(req, res) {
+  console.log("getVendorPageCtrl req ", req.params.userid);
+  try {
+    const vendor = await modelVendor.getVendorbyUserID(req.params.userid); //pass in userID, returns vendor details as object
     res.json(vendor);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });
@@ -56,6 +69,15 @@ async function addVendorReview(req, res) {
   }
 }
 
+async function deleteReview(req, res) {
+  console.log("deleteReview ctrl", req.body);
+  try {
+    const deletedreview = await modelVendor.deleteReview(req.params.reviewid);
+    res.json(deletedreview);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
 async function getReviewsByUser(req, res) {
   console.log("getReviewsByUserCtrl req ", req.params.userid);
   try {

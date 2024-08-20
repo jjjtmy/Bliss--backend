@@ -19,7 +19,9 @@ router.post(
 router.post("/create", userController.createUser);
 
 // get user (by id) or all users
+router.get("/:user", userController.getUserfromUser);
 router.get("/:userid", userController.getUserfromID);
+
 router.get("/", securityMiddleware.checkPermission, userController.getUsers);
 
 module.exports = router;

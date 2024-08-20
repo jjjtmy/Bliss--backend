@@ -3,6 +3,7 @@ const modelUsers = require("../models/users.tsx");
 // highlight-start
 module.exports = {
   getUserfromID,
+  getUserfromUser,
   getUsers,
   getLoginDetails,
   loginUser,
@@ -14,6 +15,15 @@ async function getUserfromID(req, res) {
   console.log("getUserfromIDCtrl req ", req.params.userid);
   try {
     const userData = await modelUsers.getUserfromID(req.params.userid);
+    res.json(userData);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+async function getUserfromUser(req, res) {
+  console.log("getUserfromUser req ", req.params.user);
+  try {
+    const userData = await modelUsers.getUserfromUser(req.params.user);
     res.json(userData);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });

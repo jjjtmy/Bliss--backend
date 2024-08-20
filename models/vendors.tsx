@@ -7,8 +7,10 @@ var ObjectId = require("mongoose").Types.ObjectId;
 module.exports = {
   editVendorPage,
   getVendorPage,
+  getVendorbyUserID,
   getVendorByName,
   addVendorReview,
+  deleteReview,
   getReviewsByUser,
   getVendorNames,
 };
@@ -41,6 +43,16 @@ async function getVendorPage(vendorID) {
   return { success: true, data: vendor };
 }
 
+async function getVendorbyUserID(userID) {
+  const userObjectId = new ObjectId(userID);
+
+  const vendor = await daoVendor.findOne({ UserID: userID }); //return vendor details as object
+  if (!vendor) {
+    return { success: false, error: "Vendor not found" };
+  }
+  return { success: true, data: vendor };
+}
+
 async function getVendorByName(vendorname) {
   const vendor = await daoVendor.findOne({ Name: vendorname }); //return vendor details as object
   if (!vendor) {
@@ -61,6 +73,23 @@ async function addVendorReview(review) {
     return { success: true };
   } catch (error) {
     console.error("Error in adding review:", error);
+    return { success: false, error };
+  }
+}
+
+async function deleteReview(reviewid) {
+  console.log("deleteReview model", reviewid);
+  const reviewObjectId = new ObjectId(reviewid);
+  try {
+    // access embedded reviews collection
+    await daoVendor.updateOne(
+      { "reviews._id": reviewObjectId }, // Match the specific review by its ObjectId
+      { $pull: { reviews: { _id: reviewObjectId } } } // Remove the review from the reviews array
+    );
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error in getting reviews by user:", error);
     return { success: false, error };
   }
 }

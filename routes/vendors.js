@@ -8,6 +8,7 @@ var router = express.Router();
 router.get("/getVendorNames", ctrlVendor.getVendorNames);
 router.get("/getReviewsByUser/:userid", ctrlVendor.getReviewsByUser);
 router.get("/name/:vendorname", ctrlVendor.getVendorByName);
+router.get("/user/:userid", ctrlVendor.getVendorbyUserID);
 router.get("/:vendor", ctrlVendor.getVendorPage);
 
 router.post(
@@ -21,5 +22,7 @@ router.post(
   securityMiddleware.checkClientPermission,
   ctrlVendor.addVendorReview
 );
+
+router.post("/deleteReview/:reviewid", ctrlVendor.deleteReview);
 
 module.exports = router;

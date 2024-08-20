@@ -4,6 +4,7 @@ const utilSecurity = require("../util/security.tsx");
 
 module.exports = {
   getUserfromID,
+  getUserfromUser,
   getUsers,
   getLoginDetails,
   loginUser,
@@ -14,6 +15,10 @@ module.exports = {
 function getUserfromID(id) {
   console.log("getUserfromIDmodel req", id);
   return daoUser.findById(id);
+}
+function getUserfromUser(user) {
+  console.log("getUserfromUser req", user);
+  return daoUser.find({ name: user });
 }
 
 function getUsers(queryFields) {

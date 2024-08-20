@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const vendorSchema = new Schema(
   {
+    UserID: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      default: null,
+    },
     Name: {
       type: String,
       required: true,
