@@ -10,6 +10,7 @@ module.exports = {
   logoutUser,
   createUser,
   editUser,
+  addToWishlist,
 };
 
 async function getUserfromID(req, res) {
@@ -97,6 +98,16 @@ async function editUser(req, res) {
     const userData = await modelUsers.editUser(req.body);
     console.log("editUserCtrl res", userData);
     res.json(userData);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function addToWishlist(req, res) {
+  console.log("addToWishlistCtrl req", req.body);
+  try {
+    const result = await modelUsers.addToWishlist(req.body);
+    res.json(result);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }

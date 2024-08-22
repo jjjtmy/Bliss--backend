@@ -46,6 +46,12 @@ const userSchema = new Schema(
     image_url: {
       type: String,
     },
+    wishlist: [
+      {
+        vendorID: Schema.Types.ObjectId,
+        ownComments: String,
+      },
+    ],
   },
   {
     timestamps: true,

@@ -22,13 +22,19 @@ router.post(
   userController.editUser
 );
 
+//add wishlist
+router.post(
+  "/addToWishlist",
+  // securityMiddleware.checkClientPermission,
+  userController.addToWishlist
+);
+
 // sign up
 router.post("/create", userController.createUser);
 
 // get user (by id) or all users
 router.get("/userid/:userid", userController.getUserfromID);
 router.get("/user/:user", userController.getUserfromUser);
-
 router.get("/", securityMiddleware.checkPermission, userController.getUsers);
 
 module.exports = router;

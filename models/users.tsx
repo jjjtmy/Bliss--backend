@@ -2,6 +2,8 @@ const { urlencoded } = require("express");
 const daoUser = require("../daos/users.tsx");
 const utilSecurity = require("../util/security.tsx");
 
+var ObjectId = require("mongoose").Types.ObjectId;
+
 module.exports = {
   getUserfromID,
   getUserfromUser,
@@ -11,6 +13,7 @@ module.exports = {
   createUser,
   logoutUser,
   editUser,
+  addToWishlist,
 };
 
 function getUserfromID(id) {
@@ -98,4 +101,32 @@ async function editUser(body) {
   const updatedUser = await daoUser.updateOne({ name: body.name }, body);
   console.log("editUsermodel res", updatedUser);
   return { success: true, data: updatedUser };
+}
+
+async function addToWishlist(body) {
+  console.log("addToWishlistmodel req", body);
+  const userObjectId = new ObjectId(body.userID);
+  console.log("userObjectId", userObjectId);
+  const user = await daoUser.findOne({ _id: userObjectId });
+  if (!user) {
+    return { success: false, error: "user does not exist" };
+  }
+
+  try {
+    const vendorObjectId = new ObjectId(body.vendorID); // Convert vendorID to ObjectId
+    const vendorExists = user.wishlist.some((item) =>
+      item.vendorID.equals(vendorObjectId)
+    ); // Use ObjectId comparison
+
+    if (vendorExists) {
+      return { success: false, error: "Vendor already in wishlist" };
+    }
+
+    user.wishlist.push({ vendorID: vendorObjectId });
+    await user.save();
+    return { success: true };
+  } catch (error) {
+    console.error("Error in adding to wishlist:", error);
+    return { success: false, error };
+  }
 }
