@@ -9,6 +9,7 @@ module.exports = {
   loginUser,
   logoutUser,
   createUser,
+  editUser,
 };
 
 async function getUserfromID(req, res) {
@@ -86,6 +87,17 @@ async function createUser(req, res) {
     res.json(userData);
   } catch (err) {
     console.log(err);
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function editUser(req, res) {
+  console.log("editUserCtrl req", req.body);
+  try {
+    const userData = await modelUsers.editUser(req.body);
+    console.log("editUserCtrl res", userData);
+    res.json(userData);
+  } catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }
 }

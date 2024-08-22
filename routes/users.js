@@ -15,12 +15,19 @@ router.post(
   userController.logoutUser
 );
 
+//edit user
+router.post(
+  "/edit",
+  // securityMiddleware.checkClientPermission,
+  userController.editUser
+);
+
 // sign up
 router.post("/create", userController.createUser);
 
 // get user (by id) or all users
-router.get("/:user", userController.getUserfromUser);
-router.get("/:userid", userController.getUserfromID);
+router.get("/userid/:userid", userController.getUserfromID);
+router.get("/user/:user", userController.getUserfromUser);
 
 router.get("/", securityMiddleware.checkPermission, userController.getUsers);
 

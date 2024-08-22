@@ -43,6 +43,9 @@ const userSchema = new Schema(
       type: String,
       default: "client",
     },
+    image_url: {
+      type: String,
+    },
   },
   {
     timestamps: true,

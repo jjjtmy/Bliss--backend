@@ -48,6 +48,9 @@ const vendorSchema = new Schema(
       type: Number,
       default: null,
     },
+    image_url: {
+      type: String,
+    },
     reviews: [
       {
         user: Schema.Types.ObjectId,

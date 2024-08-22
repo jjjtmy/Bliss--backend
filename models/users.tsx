@@ -10,6 +10,7 @@ module.exports = {
   loginUser,
   createUser,
   logoutUser,
+  editUser,
 };
 
 function getUserfromID(id) {
@@ -86,4 +87,15 @@ async function createUser(body) {
   }
   const newUser = await daoUser.create(body);
   return { success: true, data: newUser };
+}
+
+async function editUser(body) {
+  console.log("editUsermodel req", body);
+  const user = await daoUser.findOne({ name: body.name });
+  if (!user) {
+    return { success: false, error: "user does not exist" };
+  }
+  const updatedUser = await daoUser.updateOne({ name: body.name }, body);
+  console.log("editUsermodel res", updatedUser);
+  return { success: true, data: updatedUser };
 }
