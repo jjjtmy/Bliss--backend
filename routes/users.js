@@ -29,8 +29,17 @@ router.post(
   userController.addToWishlist
 );
 
+router.post("/updateComment", userController.updateComment);
+
 // sign up
 router.post("/create", userController.createUser);
+
+//deletewishlist
+router.post(
+  "/deleteWishlistItem",
+  // securityMiddleware.checkClientPermission,
+  userController.deleteWishlistItem
+);
 
 // get user (by id) or all users
 router.get("/userid/:userid", userController.getUserfromID);

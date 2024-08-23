@@ -14,6 +14,8 @@ module.exports = {
   logoutUser,
   editUser,
   addToWishlist,
+  updateComment,
+  deleteWishlistItem,
 };
 
 function getUserfromID(id) {
@@ -129,4 +131,48 @@ async function addToWishlist(body) {
     console.error("Error in adding to wishlist:", error);
     return { success: false, error };
   }
+}
+
+async function updateComment(body) {
+  console.log("updateCommentmodel req", body);
+  const userObjectId = new ObjectId(body.userID);
+  const user = await daoUser.findOne({ _id: userObjectId });
+  if (!user) {
+    return { success: false, error: "user does not exist" };
+  }
+  const vendorObjectId = new ObjectId(body.vendorID);
+  const wishlistItem = user.wishlist.find((item) =>
+    item.vendorID.equals(vendorObjectId)
+  );
+  console.log("wishlistItem", wishlistItem);
+  if (!wishlistItem) {
+    return { success: false, error: "Vendor not in wishlist" };
+  }
+  wishlistItem.comment = body.comment;
+  await user.save();
+  return { success: true };
+}
+
+async function deleteWishlistItem(body) {
+  console.log("deleteWishlistItemmodel req", body);
+  const userObjectId = new ObjectId(body.userID);
+  const user = await daoUser.findOne({ _id: userObjectId });
+  if (!user) {
+    return { success: false, error: "user does not exist" };
+  }
+  const vendorObjectId = new ObjectId(body.vendorID);
+
+  const updateResult = await daoUser.updateOne(
+    { _id: userObjectId },
+    { $pull: { wishlist: { vendorID: vendorObjectId } } }
+  );
+
+  if (updateResult.modifiedCount === 0) {
+    return {
+      success: false,
+      error: "Vendor not found in wishlist or deletion failed",
+    };
+  }
+
+  return { success: true, message: "Vendor removed from wishlist" };
 }

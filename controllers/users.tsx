@@ -11,6 +11,8 @@ module.exports = {
   createUser,
   editUser,
   addToWishlist,
+  updateComment,
+  deleteWishlistItem,
 };
 
 async function getUserfromID(req, res) {
@@ -107,6 +109,26 @@ async function addToWishlist(req, res) {
   console.log("addToWishlistCtrl req", req.body);
   try {
     const result = await modelUsers.addToWishlist(req.body);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function updateComment(req, res) {
+  console.log("updateCommentCtrl req", req.body);
+  try {
+    const result = await modelUsers.updateComment(req.body);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function deleteWishlistItem(req, res) {
+  console.log("deleteWishlistItemCtrl req", req.body);
+  try {
+    const result = await modelUsers.deleteWishlistItem(req.body);
     res.json(result);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });
