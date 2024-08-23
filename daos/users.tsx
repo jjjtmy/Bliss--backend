@@ -49,7 +49,7 @@ const userSchema = new Schema(
     wishlist: [
       {
         vendorID: Schema.Types.ObjectId,
-        ownComments: String,
+        comment: String,
       },
     ],
   },
