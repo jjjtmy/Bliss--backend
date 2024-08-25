@@ -95,20 +95,34 @@ async function deleteReview(reviewid) {
 }
 
 async function getReviewsByUser(userid) {
-  console.log("getReviewsByUser model input ", userid);
+  console.log("getReviewsByUser model input", userid);
   try {
-    // access embedded reviews collection
-    const userReviews = await daoVendor.find({}, { _id: 1 }).select("reviews"); //returns array of object with _id and reviews
-    console.log("combined", userReviews);
-    console.log("getReviewsByUser model output", userReviews[0].reviews);
-    let vendorID = userReviews[0]._id;
-    let userReviewsArray = userReviews[0].reviews;
+    // Access embedded reviews collection and select only _id and reviews
+    const userReviews = await daoVendor.find({}, { _id: 1, reviews: 1 });
+    console.log("Combined reviews by vendor", userReviews);
 
-    // filter reviews by user
-    userReviewsArray = userReviewsArray.filter(
-      (review) => review.user.toString() === userid
-    );
-    return { success: true, userReviewsArray, vendorID };
+    const userReviewsArray = [];
+    const userObjectId = new ObjectId(userid);
+    console.log("userObjectId", userObjectId);
+
+    // Loop through each vendor to find reviews by the user
+    for (const vendor of userReviews) {
+      const vendorDetails = await getVendorPage(vendor._id); // Get the vendor details
+      console.log("vendorDetails", vendorDetails);
+
+      vendor.reviews.forEach((review) => {
+        console.log("review.user", review.user);
+        if (review.user.equals(userObjectId)) {
+          userReviewsArray.push({
+            review,
+            vendorName: vendorDetails.data.Name,
+          }); // Associate review with vendorName
+        }
+      });
+    }
+
+    console.log("User reviews array", userReviewsArray);
+    return { success: true, userReviewsArray };
   } catch (error) {
     console.error("Error in getting reviews by user:", error);
     return { success: false, error };
