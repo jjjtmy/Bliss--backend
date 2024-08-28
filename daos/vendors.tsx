@@ -51,6 +51,22 @@ const vendorSchema = new Schema(
     image_url: {
       type: String,
     },
+    foodRating: {
+      type: Number,
+    },
+    ambienceRating: {
+      type: Number,
+    },
+    preWeddingSupportRating: {
+      type: Number,
+    },
+    dayOfSupportRating: {
+      type: Number,
+    },
+    overallRating: {
+      type: Number,
+    },
+
     reviews: [
       {
         user: Schema.Types.ObjectId,
