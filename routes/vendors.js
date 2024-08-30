@@ -1,7 +1,6 @@
 var express = require("express");
 var ctrlVendor = require("../controllers/vendors.tsx");
 var securityMiddleware = require("../middlewares/security.tsx");
-
 var router = express.Router();
 
 //start with /vendors

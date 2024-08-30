@@ -12,9 +12,8 @@ module.exports = {
 // set req.user
 function checkJWT(req, res, next) {
   // Check for the token being sent in a header or as a query parameter
-
   let token = req.get("Authorization") || req.query.token;
-  console.log(token);
+  // console.log(token);
   if (token) {
     token = token.replace("Bearer ", "");
     // console.log(token);

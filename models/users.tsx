@@ -1,7 +1,6 @@
 const { urlencoded } = require("express");
 const daoUser = require("../daos/users.tsx");
 const utilSecurity = require("../util/security.tsx");
-
 var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
@@ -19,21 +18,21 @@ module.exports = {
 };
 
 function getUserfromID(id) {
-  console.log("getUserfromIDmodel req", id);
+  // console.log("getUserfromIDmodel req", id);
   return daoUser.findById(id);
 }
 function getUserfromUser(user) {
-  console.log("getUserfromUser req", user);
+  // console.log("getUserfromUser req", user);
   return daoUser.find({ name: user });
 }
 
 function getUsers(queryFields) {
-  console.log("getUsersmodel req", queryFields);
+  // console.log("getUsersmodel req", queryFields);
   return daoUser.find(queryFields);
 }
 
 async function getLoginDetails(email) {
-  console.log("getLoginDetailsmodel req", email);
+  // console.log("getLoginDetailsmodel req", email);
   const loginFields = {
     _id: 1,
     name: 1,
@@ -45,7 +44,7 @@ async function getLoginDetails(email) {
 }
 
 async function loginUser(body) {
-  console.log("loginUsermodel req", body);
+  // console.log("loginUsermodel req", body);
   if (!body.hasOwnProperty("email")) {
     return { success: false, error: "missing email" };
   }
@@ -73,7 +72,7 @@ async function loginUser(body) {
 }
 
 async function logoutUser(body) {
-  console.log("logoutUsermodel req", body);
+  // console.log("logoutUsermodel req", body);
   if (!body.hasOwnProperty("email")) {
     return { success: false, error: "missing email" };
   }
@@ -85,7 +84,7 @@ async function logoutUser(body) {
 }
 
 async function createUser(body) {
-  console.log("createUsermodel req", body);
+  // console.log("createUsermodel req", body);
   const user = await daoUser.findOne({ email: body.email });
   if (user) {
     return { success: false, error: "user already exist" };
@@ -95,20 +94,20 @@ async function createUser(body) {
 }
 
 async function editUser(body) {
-  console.log("editUsermodel req", body);
+  // console.log("editUsermodel req", body);
   const user = await daoUser.findOne({ name: body.name });
   if (!user) {
     return { success: false, error: "user does not exist" };
   }
   const updatedUser = await daoUser.updateOne({ name: body.name }, body);
-  console.log("editUsermodel res", updatedUser);
+  // console.log("editUsermodel res", updatedUser);
   return { success: true, data: updatedUser };
 }
 
 async function addToWishlist(body) {
-  console.log("addToWishlistmodel req", body);
+  // console.log("addToWishlistmodel req", body);
   const userObjectId = new ObjectId(body.userID);
-  console.log("userObjectId", userObjectId);
+  // console.log("userObjectId", userObjectId);
   const user = await daoUser.findOne({ _id: userObjectId });
   if (!user) {
     return { success: false, error: "user does not exist" };
@@ -134,7 +133,7 @@ async function addToWishlist(body) {
 }
 
 async function updateComment(body) {
-  console.log("updateCommentmodel req", body);
+  // console.log("updateCommentmodel req", body);
   const userObjectId = new ObjectId(body.userID);
   const user = await daoUser.findOne({ _id: userObjectId });
   if (!user) {
@@ -144,7 +143,7 @@ async function updateComment(body) {
   const wishlistItem = user.wishlist.find((item) =>
     item.vendorID.equals(vendorObjectId)
   );
-  console.log("wishlistItem", wishlistItem);
+  // console.log("wishlistItem", wishlistItem);
   if (!wishlistItem) {
     return { success: false, error: "Vendor not in wishlist" };
   }
@@ -154,7 +153,7 @@ async function updateComment(body) {
 }
 
 async function deleteWishlistItem(body) {
-  console.log("deleteWishlistItemmodel req", body);
+  // console.log("deleteWishlistItemmodel req", body);
   const userObjectId = new ObjectId(body.userID);
   const user = await daoUser.findOne({ _id: userObjectId });
   if (!user) {

@@ -9,7 +9,6 @@ require("./client/mongo.tsx");
 // const port = process.env.PORT || 4000;
 
 var securityMiddleware = require("./middlewares/security.tsx");
-var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var vendorsRouter = require("./routes/vendors");
 
@@ -27,7 +26,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(securityMiddleware.checkJWT); // is just to set req.user
 
-app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/vendors", vendorsRouter);
 

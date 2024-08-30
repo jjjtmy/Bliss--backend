@@ -1,6 +1,5 @@
 const modelUsers = require("../models/users.tsx");
 
-// highlight-start
 module.exports = {
   getUserfromID,
   getUserfromUser,

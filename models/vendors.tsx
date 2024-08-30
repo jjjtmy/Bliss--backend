@@ -1,7 +1,5 @@
 const { urlencoded } = require("express");
 const daoVendor = require("../daos/vendors.tsx");
-const utilSecurity = require("../util/security.tsx");
-
 var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
@@ -71,8 +69,7 @@ async function addVendorReview(review) {
 
   try {
     vendor.reviews.push(review);
-    console.log("addVendorReview model vendor.reviews", vendor.reviews);
-    //update food rating, ambience rating, pre-wedding support rating, day-of support rating, overall rating
+    // console.log("addVendorReview model vendor.reviews", vendor.reviews);
     await updateFoodRating(vendor._id, review.food);
     await updateAmbienceRating(vendor._id, review.ambience);
     await updatePreWeddingSupportRating(vendor._id, review.preWeddingSupport);
@@ -100,7 +97,7 @@ async function updateFoodRating(vendorID) {
       }
     }
     let newFoodRating = count > 0 ? totalFoodRating / count : 0;
-    console.log("newFoodRating", newFoodRating);
+    // console.log("newFoodRating", newFoodRating);
     newFoodRating = Math.round(newFoodRating * 10) / 10;
     vendor.foodRating = newFoodRating;
     await vendor.save(); // Save the updated vendor back to the database
@@ -124,7 +121,7 @@ async function updateAmbienceRating(vendorID) {
       }
     }
     let newAmbienceRating = count > 0 ? totalAmbienceRating / count : 0;
-    console.log("newAmbienceRating", newAmbienceRating);
+    // console.log("newAmbienceRating", newAmbienceRating);
     newAmbienceRating = Math.round(newAmbienceRating * 10) / 10;
     vendor.ambienceRating = newAmbienceRating;
     await vendor.save(); // Save the updated vendor back to the database
@@ -149,7 +146,7 @@ async function updatePreWeddingSupportRating(vendorID) {
     }
     let newPreWeddingSupportRating =
       count > 0 ? totalPreWeddingSupportRating / count : 0;
-    console.log("newPreWeddingSupportRating", newPreWeddingSupportRating);
+    // console.log("newPreWeddingSupportRating", newPreWeddingSupportRating);
     newPreWeddingSupportRating =
       Math.round(newPreWeddingSupportRating * 10) / 10;
     vendor.preWeddingSupportRating = newPreWeddingSupportRating;
@@ -180,7 +177,7 @@ async function updateDayOfSupportRating(vendorID) {
     }
     let newDayOfSupportRating = count > 0 ? totalDayOfSupportRating / count : 0;
     newDayOfSupportRating = Math.round(newDayOfSupportRating * 10) / 10;
-    console.log("newDayOfSupportRating", newDayOfSupportRating);
+    // console.log("newDayOfSupportRating", newDayOfSupportRating);
     vendor.dayOfSupportRating = newDayOfSupportRating;
     await vendor.save(); // Save the updated vendor back to the database
     return { success: true, dayOfSupportRating: newDayOfSupportRating };
@@ -206,7 +203,7 @@ async function updateOverallRating(vendorID) {
       }
     }
     let newOverallRating = count > 0 ? totalOverallRating / count : 0;
-    console.log("newOverallRating", newOverallRating);
+    // console.log("newOverallRating", newOverallRating);
     newOverallRating = Math.round(newOverallRating * 10) / 10;
     vendor.overallRating = newOverallRating;
     await vendor.save(); // Save the updated vendor back to the database
@@ -239,11 +236,11 @@ async function getReviewsByUser(userid) {
   try {
     // Access embedded reviews collection and select only _id and reviews
     const userReviews = await daoVendor.find({}, { _id: 1, reviews: 1 });
-    console.log("Combined reviews by vendor", userReviews);
+    // console.log("Combined reviews by vendor", userReviews);
 
     const userReviewsArray = [];
     const userObjectId = new ObjectId(userid);
-    console.log("userObjectId", userObjectId);
+    // console.log("userObjectId", userObjectId);
 
     // Loop through each vendor to find reviews by the user
     for (const vendor of userReviews) {
@@ -251,7 +248,7 @@ async function getReviewsByUser(userid) {
       console.log("vendorDetails", vendorDetails);
 
       vendor.reviews.forEach((review) => {
-        console.log("review.user", review.user);
+        // console.log("review.user", review.user);
         if (review.user.equals(userObjectId)) {
           userReviewsArray.push({
             review,
