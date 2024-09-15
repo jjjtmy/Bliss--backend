@@ -70,12 +70,12 @@ async function addVendorReview(review) {
   try {
     vendor.reviews.push(review);
     // console.log("addVendorReview model vendor.reviews", vendor.reviews);
-    await updateFoodRating(vendor._id, review.food);
-    await updateAmbienceRating(vendor._id, review.ambience);
-    await updatePreWeddingSupportRating(vendor._id, review.preWeddingSupport);
-    await updateDayOfSupportRating(vendor._id, review.dayOfSupport);
-    await updateOverallRating(vendor._id, review.overall);
-    console.log("updateFoodRating model vendor", vendor);
+    await updateFoodRating(vendor._id);
+    await updateAmbienceRating(vendor._id);
+    await updatePreWeddingSupportRating(vendor._id);
+    await updateDayOfSupportRating(vendor._id);
+    await updateOverallRating(vendor._id);
+    // console.log("updateFoodRating model vendor", vendor);
     await vendor.save();
     return { success: true };
   } catch (error) {
