@@ -8,6 +8,11 @@ const vendorSchema = new Schema(
       required: true,
       default: null,
     },
+    VendorType: {
+      type: String,
+      required: true,
+      default: null,
+    },
     Name: {
       type: String,
       required: true,
